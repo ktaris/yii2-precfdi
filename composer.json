@@ -1,0 +1,29 @@
+{
+    "name" : "ktaris/yii2-precfdi",
+    "description" : "Clases en PHP para generar un PreCFDI a ser enviado a un PAC para su timbrado.",
+    "keywords" : [
+        "precfdi",
+        "cfdi",
+        "sat"
+    ],
+    "type" : "library",
+    "license" : "MIT License",
+    "authors" : [{
+            "name" : "Carlos Ramos",
+            "email" : "carlos@ramoscarlos.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "~2.0.6",
+        "ktaris/yii2-cfdi": "dev-master",
+        "ktaris/cadenaoriginal": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "ktaris\\precfdi\\" : ""
+        }
+    }
+}
