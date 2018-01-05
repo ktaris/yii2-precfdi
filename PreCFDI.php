@@ -180,13 +180,13 @@ class PreCFDI extends Model
 
         $this->vaciarAtributos($nodo, $cfdiObj->Impuestos);
 
-        // Traslados
-        if ($cfdiObj->tieneTraslados) {
-            $this->crearNodoTraslados($nodo, $cfdiObj);
-        }
         // Retenciones
         if ($cfdiObj->tieneRetenciones) {
             $this->crearNodoRetenciones($nodo, $cfdiObj);
+        }
+        // Traslados
+        if ($cfdiObj->tieneTraslados) {
+            $this->crearNodoTraslados($nodo, $cfdiObj);
         }
     }
 
