@@ -98,8 +98,8 @@ class PreCFDI extends Model
         // los datos del certificado necesarios para dicha cadena.
         $cadenaOriginal = CadenaOriginal::obtener($this->xml);
 
-        // 3. Obtener el sello del precfdi con el contenido del *.key.pem
-        $sello = $this->generarSelloDigital($cadenaOriginal, $csdObj->getKeyPem());
+        // 3. Obtener el sello del precfdi con el CSD
+        $sello = $csdObj->generarSelloConSha256($cadenaOriginal);
 
         // 4. Agregar el atributo "Sello" al XML.
         if (empty($this->_xmlObj['Sello'])) {
@@ -306,32 +306,5 @@ class PreCFDI extends Model
         }
 
         return trim($cadena);
-    }
-
-    // ==================================================================
-    //
-    // Funciones internas para generación del sello.
-    //
-    // ------------------------------------------------------------------
-
-    /**
-     * Generación del sello del pre-cfdi.
-     * Según el anexo 20, en la sección de "Generación del Sello Digital",
-     * por la página 56, el sello se genera en los siguientes pasos:
-     *     1. Obtener la cadena original del CFD.
-     *     2. Aplicar el algoritmo SHA1 a la cadena original.
-     *     3. Cifrar con RSA.
-     *     4. Convertir a base64.
-     * Otra referencia es: http://solucionfactible.com/sfic/capitulos/timbrado/sello.jsp.
-     *
-     * @param string $cadenaOriginal  Cadena original que será sellada.
-     * @param string $contenidoKeyPem Contenido del key.pem con el que se sellará el documento.
-     */
-    protected function generarSelloDigital($cadenaOriginal, $archivoKeyPem)
-    {
-        openssl_sign($cadenaOriginal, $selloBinario, openssl_pkey_get_private($archivoKeyPem), OPENSSL_ALGO_SHA256);
-        $sello = base64_encode($selloBinario);
-
-        return $sello;
     }
 }
