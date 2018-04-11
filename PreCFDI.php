@@ -68,6 +68,7 @@ class PreCFDI extends Model
 
         $xmlDoc = $this->crearNodoComprobante();
         $this->vaciarDatosComprobante($xmlDoc, $cfdiObj);
+        $this->crearNodoCfdiRelacionados($xmlDoc, $cfdiObj);
         $this->crearNodoEmisor($xmlDoc, $cfdiObj->Emisor);
         $this->crearNodoReceptor($xmlDoc, $cfdiObj->Receptor);
         $this->crearNodoConceptos($xmlDoc, $cfdiObj->Conceptos);
@@ -139,6 +140,20 @@ class PreCFDI extends Model
     protected function vaciarDatosComprobante($nodoXml, $cfdiObj)
     {
         $this->vaciarAtributos($nodoXml, $cfdiObj);
+    }
+
+    protected function crearNodoCfdiRelacionados($nodoXml, $cfdiObj)
+    {
+        if (!$cfdiObj->CfdiRelacionados) {
+            return;
+        }
+
+        $nodo = $nodoXml->addChild('cfdi:CfdiRelacionados');
+        $this->vaciarAtributos($nodo, $cfdiObj->CfdiRelacionados);
+        foreach ($cfdiObj->CfdiRelacionados->CfdiRelacionados as $model) {
+            $nodoTmp = $nodo->addChild('cfdi:CfdiRelacionado');
+            $this->vaciarAtributos($nodoTmp, $model);
+        }
     }
 
     /**
